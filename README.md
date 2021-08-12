@@ -1,2 +1,3 @@
-# hello-repository
-Just another repository
+Hello,
+
+This side Aru. This is created for testing purpose
