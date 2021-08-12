@@ -1,3 +1,3 @@
 Hello,
 
-This side Aru. This is created for testing purpose
+This branch will be used to create RG in Azure.
