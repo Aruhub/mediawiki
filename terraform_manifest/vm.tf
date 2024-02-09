@@ -63,11 +63,9 @@ resource "azurerm_linux_virtual_machine" "mylinuxvm" {
         "sudo systemctl start docker",
         "sleep 120",
         "sudo apt install git-all"
+        "sudo git clone https://github.com/Arubhub/mediaWiki.git && cd mediaWiki && cd kube_manifests && sudo kubectl create -f secrets.yaml -f persistent-volumes.yaml",
         "sudo yum install rh-php72",
         "scl enable rh-php72 bash",
-
-        "sudo apt-get install git -y",
-        "sudo git clone https://github.com/Anurag-30/MediaWiki.git && cd MediaWiki && cd kubernetes && sudo kubectl create -f secrets.yaml -f persistent-volumes.yaml",
         "sudo kubectl create  -f mariadb-deployment.yaml -f mariadb-svc.yaml",
         "sudo kubectl create -f app-deployment.yaml -f web-service.yaml"
         ]
