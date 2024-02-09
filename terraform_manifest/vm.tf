@@ -55,17 +55,14 @@ resource "azurerm_linux_virtual_machine" "mylinuxvm" {
     inline = [
         "sleep 120",
         "sudo apt-get update",
-        "sudo yum install -y yum-utils",
         "sleep 60",
         "sudo mkdir /mnt/media/ && chmod 744 /mnt/media",
-        "sudo yum-config-manager --add-repo https://download.docker.com/linux/rhel/docker-ce.repo",
-        "sudo yum install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin",
-        "sudo systemctl start docker",
+        
         "sleep 120",
+        "sudo curl -LO https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/arm64/kubectl && sudo chmod 755 ./kubectl && sudo mv ./kubectl /usr/local/bin/kubectl",
         "sudo apt install git-all"
         "sudo git clone https://github.com/Arubhub/mediaWiki.git && cd mediaWiki && cd kube_manifests && sudo kubectl create -f secrets.yaml -f persistent-volumes.yaml",
-        "sudo yum install rh-php72",
-        "scl enable rh-php72 bash",
+       
         "sudo kubectl create  -f mariadb-deployment.yaml -f mariadb-svc.yaml",
         "sudo kubectl create -f app-deployment.yaml -f web-service.yaml"
         ]
