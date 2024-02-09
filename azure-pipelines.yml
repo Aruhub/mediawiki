@@ -8,4 +8,44 @@ trigger: none
 pool:
   vmImage: ubuntu-latest
 
+variables:
+  bkstrg: 'backend-rg'
+  bkstraccname: 'bckstrfrmedia'
+  bkstrcontname: 'terrformfile'
+  bkstrkeyname: 'tf.state'
+
+stages:
+  - stage: tfvalidate
+    jobs:
+      - job: validate
+        continueOnError: false
+        steps:
+          - task: TerraformInstaller@1
+            displayName: tfinstall
+            inputs:
+              terraformVersion: 'latest'
+          - task: TerraformTaskV4@4
+            displayName: init
+            inputs:
+              provider: 'azurerm'
+              command: 'init'
+              backendServiceArm: 'Visual Studio Enterprise Subscription(1)(e357f583-5811-47f9-8df2-28be0f76000f)'
+              backendAzureRmResourceGroupName: '$(bkstrg)'
+              backendAzureRmStorageAccountName: '$(bkstraccname)'
+              backendAzureRmContainerName: '$(bkstrcontname)'
+              backendAzureRmKey: '$(bkstrkeyname)'
+            
+          - task: TerraformTaskV4@4
+            displayName: validate
+            inputs:
+              provider: 'azurerm'
+              command: 'validate'
+  - stage: tfdeploy
+    condition: succeeded('tfvalidate')
+    dependsOn: tfvalidate
+    jobs:
+      - job: apply
+                    
+          
+
 
