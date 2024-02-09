@@ -45,7 +45,35 @@ stages:
     dependsOn: tfvalidate
     jobs:
       - job: apply
-                    
+        steps:
+          - task: TerraformInstaller@1
+            displayName: tfinstall
+            inputs:
+              terraformVersion: 'latest'
+          - task: TerraformTaskV4@4
+            displayName: init
+            inputs:
+              provider: 'azurerm'
+              command: 'init'
+              backendServiceArm: 'Visual Studio Enterprise Subscription(1)(e357f583-5811-47f9-8df2-28be0f76000f)'
+              backendAzureRmResourceGroupName: '$(bkstrg)'
+              backendAzureRmStorageAccountName: '$(bkstraccname)'
+              backendAzureRmContainerName: '$(bkstrcontname)'
+              backendAzureRmKey: '$(bkstrkeyname)'
+            
+          - task: TerraformTaskV4@4
+            displayName: plan
+            inputs:
+              provider: 'azurerm'
+              command: 'plan'          
+          - task: TerraformTaskV4@4
+            displayName: apply
+            inputs:
+              provider: 'azurerm'
+              command: 'apply'
+              environmentServiceNameAzureRM: 'mediawiki'
+
+          
           
 
 
