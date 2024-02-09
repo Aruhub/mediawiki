@@ -54,16 +54,18 @@ resource "azurerm_linux_virtual_machine" "mylinuxvm" {
   provisioner "remote-exec" {
     inline = [
         "sleep 120",
-        "sudo yum-config-manager --enable rhel-server-rhscl-7-rpms",
+        "sudo apt-get update",
+        "sudo yum install -y yum-utils",
+        "sleep 60",
+        "sudo mkdir /mnt/media/ && chmod 744 /mnt/media",
+        "sudo yum-config-manager --add-repo https://download.docker.com/linux/rhel/docker-ce.repo",
+        "sudo yum install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin",
+        "sudo systemctl start docker",
+        "sleep 120",
+        "sudo apt install git-all"
         "sudo yum install rh-php72",
         "scl enable rh-php72 bash",
 
-        "sudo apt-get update && sudo apt-get install docker.io -y",
-        "sudo mkdir /mnt/data && chmod 644 /mnt/data",
-        "sudo curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl && sudo chmod 755 ./kubectl && sudo mv ./kubectl /usr/local/bin/kubectl",
-        "curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 && chmod +x minikube && sudo mv minikube /usr/local/bin/",
-        "sudo minikube start --vm-driver=none",
-        "sleep 30",
         "sudo apt-get install git -y",
         "sudo git clone https://github.com/Anurag-30/MediaWiki.git && cd MediaWiki && cd kubernetes && sudo kubectl create -f secrets.yaml -f persistent-volumes.yaml",
         "sudo kubectl create  -f mariadb-deployment.yaml -f mariadb-svc.yaml",
