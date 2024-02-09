@@ -6,10 +6,10 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
-  bkstrg: 'backend-rg'
-  bkstraccname: 'bckstrfrmedia'
-  bkstrcontname: 'terrformfile'
-  bkstrkeyname: 'tf.state'
+  bkstrg: 'test-rg'
+  bkstraccname: 'testmediastr01'
+  bkstrcontname: 'tfstatefile'
+  bkstrkeyname: 'terraform.tfstate'
 
 stages:
   - stage: tfvalidate
