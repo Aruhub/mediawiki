@@ -65,7 +65,8 @@ stages:
             displayName: plan
             inputs:
               provider: 'azurerm'
-              command: 'plan'          
+              command: 'plan'
+              environmentServiceNameAzureRM: 'mediawiki'        
           - task: TerraformTaskV4@4
             displayName: apply
             inputs:
